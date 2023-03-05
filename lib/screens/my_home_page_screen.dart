@@ -5,8 +5,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
-import 'package:khuwari_user_app/Widgets/advanced_drawer.dart';
-import 'package:khuwari_user_app/Widgets/main_screen_scaffold.dart';
 import 'package:khuwari_user_app/screens/select_type_screen.dart';
 
 import '../notificationservice/local_notification_service.dart';
@@ -95,10 +93,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget MyDrawer(){
     return AdvancedDrawer(
-      backdropColor: Colors.brown,
+      backdropColor: Colors.lightBlueAccent,
       controller: _advancedDrawerController,
-      animationCurve: Curves.easeInOut,
-      animationDuration: const Duration(milliseconds: 300),
+      animationCurve: Curves.bounceOut,
+      animationDuration: const Duration(milliseconds: 1000),
       animateChildDecoration: true,
       rtlOpening: false,
 
@@ -107,64 +105,61 @@ class _MyHomePageState extends State<MyHomePage> {
         borderRadius: BorderRadius.all(Radius.circular(16)),
       ),
       drawer: SafeArea(
-        child: Container(
-          child: ListTileTheme(
-            textColor: Colors.white,
-            iconColor: Colors.white,
-            child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Container(
-                  width: 128.0,
-                  height: 128.0,
-                  margin: const EdgeInsets.only(
-                    top: 24.0,
-                    bottom: 64.0,
+        child: ListTileTheme(
+          textColor: Colors.white,
+          iconColor: Colors.white,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Container(
+                width: 128.0,
+                height: 128.0,
+                margin: const EdgeInsets.only(
+                  top: 24.0,
+                  bottom: 64.0,
+                ),
+                clipBehavior: Clip.antiAlias,
+                decoration: const BoxDecoration(
+                  color: Colors.black26,
+                  shape: BoxShape.circle,
+                ),
+                child: const Icon(Icons.school_outlined, size: 60,color: Colors.white,)
+              ),
+              ListTile(
+                onTap: () {},
+                leading: const Icon(Icons.home),
+                title: const Text('Home'),
+              ),
+              ListTile(
+                onTap: () {},
+                leading: const Icon(Icons.upload),
+                title: const Text('Upload'),
+              ),
+              ListTile(
+                onTap: () {},
+                leading: const Icon(Icons.favorite),
+                title: const Text('Favourites'),
+              ),
+              ListTile(
+                onTap: () {},
+                leading: const Icon(Icons.settings),
+                title: const Text('Settings')
+              ),
+              const Spacer(),
+              DefaultTextStyle(
+                style: const TextStyle(
+                  fontSize: 12,
+                  color: Colors.white54,
+                ),
+                child: Container(
+                  margin: const EdgeInsets.symmetric(
+                    vertical: 16.0,
                   ),
-                  clipBehavior: Clip.antiAlias,
-                  decoration: const BoxDecoration(
-                    color: Colors.black26,
-                    shape: BoxShape.circle,
-                  ),
-                  child: Image.asset(
-                    'assets/images/flutter_logo.png',
-                  ),
+                  child: const Text('Unknown Developer'),
                 ),
-                ListTile(
-                  onTap: () {},
-                  leading: Icon(Icons.home),
-                  title: Text('Home'),
-                ),
-                ListTile(
-                  onTap: () {},
-                  leading: Icon(Icons.upload),
-                  title: Text('Upload'),
-                ),
-                ListTile(
-                  onTap: () {},
-                  leading: Icon(Icons.favorite),
-                  title: Text('Favourites'),
-                ),
-                ListTile(
-                  onTap: () {},
-                  leading: Icon(Icons.settings),
-                  title: Text('Settings'),
-                ),
-                Spacer(),
-                DefaultTextStyle(
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: Colors.white54,
-                  ),
-                  child: Container(
-                    margin: const EdgeInsets.symmetric(
-                      vertical: 16.0,
-                    ),
-                    child: const Text('Unknown Developer'),
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
@@ -198,7 +193,7 @@ class _MyHomePageState extends State<MyHomePage> {
           if (snapshot.hasData) {
             var list = snapshot.data!.snapshot.children.toList();
             return GridView.builder(
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2),
               itemCount: list.length,
               itemBuilder: (context, index) {
@@ -219,10 +214,14 @@ class _MyHomePageState extends State<MyHomePage> {
                           list[index]
                               .child('semester')
                               .value as String,
-                          style: TextStyle(fontSize: 30,
+                          style: const TextStyle(
+                            fontFamily: 'ShantellSans',
+                              fontSize: 30,
                               color: Colors.white,
                               fontWeight: FontWeight.bold),),
-                          Text('Semester', style: TextStyle(fontSize: 30,
+                          const Text('Semester', style: TextStyle(
+                              fontFamily: 'ShantellSans',
+                              fontSize: 30,
                               color: Colors.white,
                               fontWeight: FontWeight.bold))
                         ]
@@ -239,7 +238,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     return Center(child: CircularProgressIndicator());
                   }
                   else {
-                    return Center(child: Icon(Icons
+                    return const Center(child: Icon(Icons
                         .signal_wifi_statusbar_connected_no_internet_4_outlined,
                       size: 200, color: Colors.black,));
                   }
