@@ -1,13 +1,15 @@
+
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:khuwari_user_app/screens/slides_screen.dart';
 
+
 class MidAndFinalScreen extends StatefulWidget {
   final query;
   final nodeName;
-  final id;
+  final id; // id is lab or theory
   final subject;
-
   const MidAndFinalScreen({
     super.key,
     required this.query,
@@ -15,11 +17,9 @@ class MidAndFinalScreen extends StatefulWidget {
     required this.id,
     required this.subject
   });
-
   @override
   State<MidAndFinalScreen> createState() => _MidAndFinalScreenState(query:query, nodeName: nodeName, id: id, subject: subject);
 }
-
 class _MidAndFinalScreenState extends State<MidAndFinalScreen> {
 
   DatabaseReference query;
@@ -28,10 +28,6 @@ class _MidAndFinalScreenState extends State<MidAndFinalScreen> {
   final subject;
   _MidAndFinalScreenState({required this.query, this.nodeName, this.id, this.subject});
   @override
-  void initState() {
-
-    super.initState();
-  }
   Widget build(BuildContext context) {
     query = query.child(id);
     return Scaffold(
@@ -48,7 +44,7 @@ class _MidAndFinalScreenState extends State<MidAndFinalScreen> {
               itemBuilder: (context, index) {
                 String name = list[index].child('name').value as String;
                 String id = list[index].child('id').value as String;
-                if(name == (nodeName.toString().toLowerCase()) && name == id){
+                if(name == nodeName.toString().toLowerCase() || name == id){
                   return Container();
                 }
                 else {
@@ -69,10 +65,20 @@ class _MidAndFinalScreenState extends State<MidAndFinalScreen> {
                     ),
                   );
                 }
-            },);
+              },);
           }
           else{
-           return Center(child: CircularProgressIndicator(),);
+            return StreamBuilder<ConnectivityResult>(
+                stream: Connectivity().onConnectivityChanged,
+                builder: (context, snapshot) {
+                  if(snapshot.connectionState == ConnectionState.active){
+                    return Center(child: CircularProgressIndicator());
+                  }
+                  else{
+                    return Center(child: Icon(Icons.signal_wifi_statusbar_connected_no_internet_4_outlined, size: 200, color: Colors.black,));
+                  }
+                }
+            );
           }
         },
       ),
