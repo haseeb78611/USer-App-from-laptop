@@ -26,6 +26,7 @@ class _SelectTypeScreenState extends State<SelectTypeScreen> {
         appBar: AppBar(
           title: Text(semester),
         ),
+        backgroundColor: Color(0xff6B8E23),
         body: StreamBuilder(
           stream: database.ref('${semester}_semester').child('types').onValue,
           builder: (context,AsyncSnapshot<DatabaseEvent> snapshot) {
@@ -46,7 +47,9 @@ class _SelectTypeScreenState extends State<SelectTypeScreen> {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => SubjectsScreen(semester: semester, classWorkId: id, name: name,),));
                     },
                     child: Card(
-                      color: Colors.blue,
+                      elevation: 5,
+                      shape: Border(top: BorderSide.merge(BorderSide(color: Colors.green,width: 5), BorderSide.none)),
+                      color: Color(0xff006400),
                       child: Center(child: Padding(
                         padding: const EdgeInsets.all(20),
                         child: Text(name, style: TextStyle(fontSize: 30, color: Colors.white),),

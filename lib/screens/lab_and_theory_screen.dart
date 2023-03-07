@@ -37,6 +37,7 @@ class _LabAndTheoryScreenState extends State<LabAndTheoryScreen> {
         appBar: AppBar(
           title: Text(subject),
         ),
+        backgroundColor: Color(0xff6B8E23),
         body: StreamBuilder(
           stream: query.onValue,
           builder: (context, AsyncSnapshot<DatabaseEvent>snapshot) {
@@ -55,7 +56,9 @@ class _LabAndTheoryScreenState extends State<LabAndTheoryScreen> {
                         Navigator.push(context,MaterialPageRoute(builder: (context) => MidAndFinalScreen(query:query, nodeName: nodeName, id: id.toString(), subject: subject,),));
                       },
                       child: Card(
-                        color: Colors.blue,
+                        elevation: 5,
+                        shape: Border(top: BorderSide.merge(BorderSide(color: Colors.green,width: 5), BorderSide.none)),
+                        color: Color(0xff006400),
                         child: Padding(
                           padding: const EdgeInsets.all(50),
                           child: Text(nodeName,

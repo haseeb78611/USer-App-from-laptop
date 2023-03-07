@@ -8,6 +8,7 @@ import 'package:flutter_advanced_drawer/flutter_advanced_drawer.dart';
 import 'package:khuwari_user_app/screens/select_type_screen.dart';
 
 import '../notificationservice/local_notification_service.dart';
+import 'notifiaction_send_screen.dart';
 
 
 class MyHomePage extends StatefulWidget {
@@ -20,64 +21,19 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final _advancedDrawerController = AdvancedDrawerController();
   final database =  FirebaseDatabase.instance.ref();
-  String deviceTokenToSendPushNotification = '';
+
   Connectivity connectivity = Connectivity();
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-
-    //Background State
-    FirebaseMessaging.onMessageOpenedApp.listen(
-          (message) {
-        print("FirebaseMessaging.onMessageOpenedApp.listen");
-        if (message.notification != null) {
-          print(message.notification!.title);
-          print(message.notification!.body);
-          print("message.data22 ${message.data['_id']}");
-        }
-      },
-    );
-    //Foreground State
-    FirebaseMessaging.onMessage.listen(
-          (message) {
-        print("FirebaseMessaging.onMessage.listen");
-        if (message.notification != null) {
-          print(message.notification!.title);
-          print(message.notification!.body);
-          print("message.data11 ${message.data}");
-          LocalNotificationService.createanddisplaynotification(message);
-        }
-      },
-    );
-    //Terminated State
-    FirebaseMessaging.instance.getInitialMessage().then(
-          (message) {
-        print("FirebaseMessaging.instance.getInitialMessage");
-        if (message != null) {
-          print("New Notification");
-          // if (message.data['_id'] != null) {
-          //   Navigator.of(context).push(
-          //     MaterialPageRoute(
-          //       builder: (context) => DemoScreen(
-          //         id: message.data['_id'],
-          //       ),
-          //     ),
-          //   );
-          // }
-        }
-      },
-    );
-
   }
 
   Future<void> getDeviceTokenToSendNotification() async {
     final FirebaseMessaging _fcm = FirebaseMessaging.instance;
     final token = await _fcm.getToken();
 
-    deviceTokenToSendPushNotification = token.toString();
-    print("Token Value $deviceTokenToSendPushNotification");
   }
 
   void _handleMenuButtonPressed() {
@@ -93,7 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   Widget MyDrawer(){
     return AdvancedDrawer(
-      backdropColor: Colors.lightBlueAccent,
+      backdropColor: Color(0xff6B8E23),
       controller: _advancedDrawerController,
       animationCurve: Curves.bounceOut,
       animationDuration: const Duration(milliseconds: 1000),
@@ -132,9 +88,11 @@ class _MyHomePageState extends State<MyHomePage> {
                 title: const Text('Home'),
               ),
               ListTile(
-                onTap: () {},
+                onTap: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => NotificationSend(),));
+                },
                 leading: const Icon(Icons.upload),
-                title: const Text('Upload'),
+                title: const Text('Notification'),
               ),
               ListTile(
                 onTap: () {},
@@ -170,7 +128,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget MainScreenScaffold(){
     return Scaffold(
       appBar: AppBar(
-        title: Text(''),
+        title: Container(margin: EdgeInsets.symmetric(horizontal: 70),child: Text('BSCS',style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),)),
         leading: IconButton(
           onPressed: _handleMenuButtonPressed,
           icon: ValueListenableBuilder<AdvancedDrawerValue>(
@@ -187,6 +145,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
         ),
       ),
+      backgroundColor: Color(0xff6B8E23),
       body: StreamBuilder(
         stream: database.onValue,
         builder: (context, AsyncSnapshot<DatabaseEvent> snapshot) {
@@ -205,26 +164,31 @@ class _MyHomePageState extends State<MyHomePage> {
                             .child('semester')
                             .value as String,)));
                   },
-                  child: Card(
-                    color: Colors.blue,
-                    child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [Text(
-                          list[index]
-                              .child('semester')
-                              .value as String,
-                          style: const TextStyle(
-                            fontFamily: 'ShantellSans',
-                              fontSize: 30,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold),),
-                          const Text('Semester', style: TextStyle(
+                  child: Container(
+                    padding: EdgeInsets.all(3),
+                    child: Card(
+                      elevation: 5,
+                      shape: Border(top: BorderSide.merge(BorderSide(color: Colors.green,width: 20), BorderSide.none)),
+                      color: Color(0xff006400),
+                      child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [Text(
+                            list[index]
+                                .child('semester')
+                                .value as String,
+                            style: const TextStyle(
                               fontFamily: 'ShantellSans',
-                              fontSize: 30,
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold))
-                        ]
+                                fontSize: 25,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold),),
+                            const Text('Semester', style: TextStyle(
+                                fontFamily: 'ShantellSans',
+                                fontSize: 25,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold))
+                          ]
+                      ),
                     ),
                   ),
                 );
@@ -240,7 +204,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   else {
                     return const Center(child: Icon(Icons
                         .signal_wifi_statusbar_connected_no_internet_4_outlined,
-                      size: 200, color: Colors.black,));
+                      size: 200, color: Colors.white,));
                   }
                 }
             );

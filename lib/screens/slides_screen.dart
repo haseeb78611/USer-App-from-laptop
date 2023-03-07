@@ -98,6 +98,7 @@ class _SlidesScreenState extends State<SlidesScreen> {
         appBar: AppBar(
             title: Text(name)
         ),
+        backgroundColor: Color(0xff6B8E23),
         body: Stack(
           children: [
             StreamBuilder(
@@ -119,69 +120,76 @@ class _SlidesScreenState extends State<SlidesScreen> {
                       return InkWell(
                         onTap: () {
                         },
-                        child: Card(
-                            color: Colors.blue,
-                            child: Padding(
-                              padding: const EdgeInsets.all(0),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Container(
-                                    child: Row(
-                                      children: [
-                                        SizedBox(width: 8,),
-                                        Icon(Icons.picture_as_pdf, size: 50,),
-                                        Padding(
-                                          padding: const EdgeInsets.all(20),
-                                          child: Text(name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),
+                        child: InkWell(
+                          onTap: (){
+                            Navigator.push(context, MaterialPageRoute(builder: (context) => PDf(path: path, name: name),));
+                          },
+                          child: Card(
+                              elevation: 5,
+                              shape: Border(top: BorderSide.merge(BorderSide(color: Colors.green,width: 5), BorderSide.none)),
+                              color: Color(0xff006400),
+                              child: Padding(
+                                padding: const EdgeInsets.all(0),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Container(
+                                      child: Row(
+                                        children: [
+                                          SizedBox(width: 8,),
+                                          Icon(Icons.picture_as_pdf, size: 50,),
+                                          Padding(
+                                            padding: const EdgeInsets.all(20),
+                                            child: Text(name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 20, color: Colors.white),
+                                            ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  Container(
-                                    height: 100,
-                                    child: Column(
-                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Row(
-                                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            Container(
-                                              width: 2,
-                                              height: 100,
-                                              color: Colors.white,
-                                            ),
-
-                                            Container(
-                                              height: 100,
-                                              width: 80,
-                                              child: Column(
-                                                mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                children: [
-                                                  InkWell(
-                                                      onTap: (){
-                                                        Navigator.push(context, MaterialPageRoute(builder: (context) => PDf(path: path, name: name),));
-                                                      },
-                                                      child: Icon(Icons.remove_red_eye, color: Colors.white, size: 30,)),
-                                                  InkWell(
-                                                      onTap: (){
-                                                        downloadFile(path, name);
-                                                      },
-                                                      child: Icon(Icons.download, color: Colors.white, size: 30))
-                                                ],
+                                    Container(
+                                      height: 100,
+                                      child: Column(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              Container(
+                                                width: 2,
+                                                height: 100,
+                                                color: Colors.white,
                                               ),
-                                            ),
 
-                                          ],
-                                        ),
-                                        SizedBox(width: 10,),
-                                      ],
+                                              Container(
+                                                height: 100,
+                                                width: 80,
+                                                child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                                                  children: [
+                                                    InkWell(
+                                                        onTap: (){
+                                                          Navigator.push(context, MaterialPageRoute(builder: (context) => PDf(path: path, name: name),));
+                                                        },
+                                                        child: Icon(Icons.remove_red_eye, color: Colors.white, size: 30,)),
+                                                    InkWell(
+                                                        onTap: (){
+                                                          downloadFile(path, name);
+                                                        },
+                                                        child: Icon(Icons.download, color: Colors.white, size: 30))
+                                                  ],
+                                                ),
+                                              ),
+
+                                            ],
+                                          ),
+                                          SizedBox(width: 10,),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                            )
+                                  ],
+                                ),
+                              )
+                          ),
                         ),
                       );
                     },);

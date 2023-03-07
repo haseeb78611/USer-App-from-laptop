@@ -34,6 +34,7 @@ class _MidAndFinalScreenState extends State<MidAndFinalScreen> {
       appBar: AppBar(
         title: Text(nodeName),
       ),
+      backgroundColor: Color(0xff6B8E23),
       body: StreamBuilder(
         stream: query.onValue,
         builder: (context, AsyncSnapshot<DatabaseEvent>snapshot) {
@@ -53,7 +54,9 @@ class _MidAndFinalScreenState extends State<MidAndFinalScreen> {
                       Navigator.push(context, MaterialPageRoute(builder: (context) => SlidesScreen(name: name, query : query, id : id.toString()),));
                     },
                     child: Card(
-                      color: Colors.blue,
+                      elevation: 5,
+                      shape: Border(top: BorderSide.merge(BorderSide(color: Colors.green,width: 5), BorderSide.none)),
+                      color: Color(0xff006400),
                       child: Padding(
                         padding: const EdgeInsets.all(50),
                         child: Text(name,

@@ -33,6 +33,7 @@ class _ClassWorkScreenState extends State<ClassWorkScreen> {
       appBar: AppBar(
         title: Text(subject),
       ),
+      backgroundColor: Color(0xff6B8E23),
       body: StreamBuilder(
         //classWorkId is 2nd screen selection wheate=her its slides or class work
         stream: database.ref('${semester}_semester').child('types').child(classWorkId).child('subjects').child(subject).orderByChild('time').onValue,
@@ -45,7 +46,9 @@ class _ClassWorkScreenState extends State<ClassWorkScreen> {
               itemBuilder: (context, index) {
                 counter--;
                 return Card(
-                    color: Colors.blue,
+                    elevation: 5,
+                    shape: Border(top: BorderSide.merge(BorderSide(color: Colors.green,width: 5), BorderSide.none)),
+                    color:Color(0xff006400),
                     child: ListTile(
                       contentPadding: EdgeInsets.all(10),
                       title: Text(list[counter].child('type').value as String, style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white, fontSize: 20),),
